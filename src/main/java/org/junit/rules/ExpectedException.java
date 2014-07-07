@@ -69,8 +69,8 @@ import org.junit.runners.model.Statement;
  * provides no useful information. (See {@link org.junit.Assume} for more
  * information.) You have to call {@code assume} methods before you set
  * expectations of the {@code ExpectedException} rule. In this case the rule
- * will not handle consume the exceptions and it can be handled by the
- * framework. E.g. the following test is ignored by JUnit's default runner.
+ * will not handle the exceptions and it can be handled by the framework. E.g.
+ * the following test is ignored by JUnit's default runner.
  *
  * <pre> &#064;Test
  * public void ignoredBecauseOfFailedAssumption() {

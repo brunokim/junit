@@ -87,7 +87,10 @@ public class ExpectedExceptionTest {
                 {
                         UseCustomMessageWithPlaceHolder.class,
                         hasSingleFailureWithMessage(ARBITRARY_MESSAGE
-                                + " - an instance of java.lang.IllegalArgumentException") }
+                                + " - an instance of java.lang.IllegalArgumentException") },
+                {
+                        FailAfterExpectedException.class,
+                        hasSingleFailureWithMessage(containsString("methodShouldAppearInStacktrace"))}
         });
     }
 
@@ -357,12 +360,29 @@ public class ExpectedExceptionTest {
     public static class UseCustomMessageWithoutPlaceHolder {
 
         @Rule
-        public ExpectedException thrown= ExpectedException.none();
+        public ExpectedException thrown = ExpectedException.none();
 
         @Test
         public void noThrow() {
             thrown.expect(IllegalArgumentException.class);
             thrown.reportMissingExceptionWithMessage(ARBITRARY_MESSAGE);
+        }
+    }
+
+    // https://github.com/junit-team/junit/issues/847
+    public static class FailAfterExpectedException {
+
+      @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        private static void methodShouldAppearInStacktrace() {
+          fail();
+        }
+
+        @Test
+        public void fails() {
+            thrown.expect(IllegalArgumentException.class);
+            methodShouldAppearInStacktrace();
         }
     }
 }
